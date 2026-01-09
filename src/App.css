@@ -1,3 +1,27 @@
+/* ======================
+   Matecap Wealth Design Tokens
+   ====================== */
+
+:root {
+  --green-primary: #51A768;
+  --green-soft: #5DB274;
+  --green-deep: #1A692F;
+  --navy-primary: #193A56;
+
+  --bg-light: #f4f9ff;
+  --bg-dark: #0f172a;
+
+  --text-primary: #193A56;
+  --text-muted: #64748b;
+
+  --gradient-primary: linear-gradient(
+    to right,
+    var(--green-primary),
+    var(--green-soft)
+  );
+}
+
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,31 +33,40 @@
 
 .app {
   min-height: 100vh;
-  background: #f4f9ff;
-  color: #1f2937;
-  transition: all 0.3s ease;
+  background: var(--bg-light);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .app.dark {
-  background: #0f172a;
+  background: var(--bg-dark);
   color: #e5e7eb;
 }
 
+
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   padding: 16px 24px;
-  background: linear-gradient(to right, #0ea5e9, #22c55e);
+  background: linear-gradient(
+    to right,
+    var(--navy-primary),
+    var(--green-primary)
+  );
   color: white;
 }
+
+
+
 
 .logo {
   display: flex;
   align-items: center;
   gap: 12px;
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .logo img {
@@ -171,16 +204,63 @@ button:hover {
 }
 /* Fund Researcher */
 
-.fund-search {
-  width: 100%;
-  padding: 14px 16px;
-  font-size: 16px;
-  border-radius: 12px;
+.fund-search-shell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 4px;
+  border-radius: 14px;
   border: 1px solid #e5e7eb;
-  margin-bottom: 12px;
-  background: white;
+  background: #ffffff;
+}
+
+.fund-search {
+  flex: 1;
+  padding: 12px 10px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.clear-search {
+  height: 32px;
+  width: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  border: none;
+  background: rgba(15, 23, 42, 0.06);
+  color: #475569;
+  cursor: pointer;
+}
+
+.clear-search:hover {
+  background: rgba(15, 23, 42, 0.12);
   color: #0f172a;
 }
+
+/* Dark mode */
+.app.dark .fund-search-shell {
+  background: #020617;
+  border-color: #334155;
+}
+
+.app.dark .clear-search {
+  background: rgba(255, 255, 255, 0.08);
+  color: #cbd5f5;
+}
+
+.app.dark .clear-search:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+
 
 /* Dark mode fix */
 .app.dark .fund-search {
@@ -275,10 +355,14 @@ button:hover {
 }
 
 .hero-actions {
-  margin-top: 28px;
   display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.hero-actions > * {
+  flex: 1;                 /* 👈 equal width buttons */
+  text-align: center;
 }
 
 /* Buttons */
@@ -290,62 +374,189 @@ button:hover {
   font-size: 15px;
   font-weight: 500;
   color: white;
-  background: linear-gradient(to right, #0ea5e9, #22c55e);
+  background: var(--gradient-primary);
   cursor: pointer;
 }
 
+
 .secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 14px 22px;
   border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(25, 58, 86, 0.2);
   background: transparent;
   font-size: 15px;
+  font-weight: 500;
+  color: var(--navy-primary);
+  text-decoration: none;
   cursor: pointer;
+}
+
+.secondary-btn:hover {
+  background: rgba(25, 58, 86, 0.05);
 }
 
 .app.dark .secondary-btn {
-  border-color: #334155;
   color: #e5e7eb;
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
-/* Mobile tweaks */
-@media (max-width: 768px) {
-  .hero-main h1 {
-    font-size: 34px;
-  }
-
-  .hero-main p {
-    font-size: 16px;
-  }
-}
-/* Contact Section */
-
-.contact-card h2 {
-  margin-bottom: 8px;
+.app.dark .secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.contact-sub {
-  opacity: 0.7;
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.whatsapp-icon-btn,
+.mode-icon-btn {
+  height: 38px;
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.18);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.whatsapp-icon-btn:hover,
+.mode-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+
+
+/* WhatsApp Section */
+
+.whatsapp-card p {
+  opacity: 0.8;
   margin-bottom: 18px;
 }
 
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.whatsapp-big-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px;
+  border-radius: 12px;
+  background: #25d366;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
 }
 
-.contact-form input,
-.contact-form textarea {
-  padding: 14px 16px;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
+.whatsapp-big-btn:hover {
+  opacity: 0.9;
+}
+
+
+.footer-trust {
   font-size: 15px;
+  opacity: 0.6;
+  margin-top: 12px;
+  text-align: center;
 }
 
-.app.dark .contact-form input,
-.app.dark .contact-form textarea {
-  background: #020617;
-  color: #e5e7eb;
-  border-color: #334155;
+.amfi-badge {
+  margin: 28px auto 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--navy-primary);
+  background: rgba(81, 167, 104, 0.08);
 }
+
+
+.app.dark .amfi-badge {
+  color: #e5e7eb;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.amfi-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+}
+
+
+.amfi-sep {
+  opacity: 0.5;
+}
+
+.fund-search-wrapper {
+  position: relative;
+}
+
+
+
+/* Mobile tweaks */
+
+@media (max-width: 640px) {
+  
+  .hero-main {
+    padding-top: 48px;
+  }
+
+  .hero-main h1 {
+    font-size: 28px;
+    line-height: 1.22;
+    letter-spacing: -0.015em;
+  }
+
+  .hero-main p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .hero-actions {
+    gap: 10px;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    padding: 10px 14px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .amfi-badge {
+    font-size: 10px;
+    padding: 6px 10px;
+    text-align: center;
+  }
+}
+@media (max-width: 640px) {
+  .header {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .logo {
+    flex: 0 0 auto;
+  }
+  .logo img {
+    height: 36px; /* slightly tighter on mobile */
+  }
+
+  .logo span {
+    font-size: 18px;
+  }
+}
+
+

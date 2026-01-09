@@ -194,19 +194,67 @@ function App() {
           <span>Matecap Wealth</span>
         </div>
 
-        <button onClick={() => setDark(!dark)} className="toggle">
-          {dark ? "Light" : "Dark"}
-        </button>
+        <div className="header-actions">
+          <a
+            href="https://wa.me/918478999888"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whatsapp-icon-btn"
+            aria-label="Chat on WhatsApp"
+          >
+            <svg viewBox="0 0 32 32" width="18" height="18" fill="currentColor">
+              <path d="M16 .5C7.5.5.5 7.4.5 16c0 2.8.7 5.4 2 7.7L.5 31.5l8-2.1c2.2 1.2 4.7 1.8 7.5 1.8 8.6 0 15.5-6.9 15.5-15.2S24.6.5 16 .5zm0 27.6c-2.4 0-4.6-.6-6.6-1.7l-.5-.3-4.7 1.2 1.3-4.5-.3-.5c-1.2-1.9-1.8-4.1-1.8-6.4C3.4 9 9.1 3.5 16 3.5S28.6 9 28.6 16 22.9 28.1 16 28.1z" />
+            </svg>
+          </a>
+
+          <button
+            onClick={() => setDark(!dark)}
+            className="mode-icon-btn"
+            aria-label="Toggle theme"
+          >
+            {dark ? (
+              /* Sun icon */
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
+                <path
+                  d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+              </svg>
+            ) : (
+              /* Moon icon */
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+              </svg>
+            )}
+          </button>
+
+        </div>
+
       </header>
+
 
 
       <main className="main">
         <section className="hero hero-main">
           <h1>Build Wealth with Discipline & Clarity</h1>
+
           <p>
             Matecap Wealth helps you make informed investment decisions with
             transparent SIP planning and real-time mutual fund research.
           </p>
+
+          <div className="amfi-badge">
+            <span className="amfi-dot" />
+            AMFI Registered Mutual Fund Distributor
+            <span className="amfi-sep">•</span>
+            ARN – 344831
+          </div>
 
           <div className="hero-actions">
             <button
@@ -220,19 +268,22 @@ function App() {
               Start SIP Planning
             </button>
 
-            <button
+            <a
+              href="https://wa.me/918478999888"
+              target="_blank"
+              rel="noopener noreferrer"
               className="secondary-btn"
-              onClick={() =>
-                document
-                  .getElementById("contact-section")
-                  .scrollIntoView({ behavior: "smooth" })
-              }
             >
-              Contact Us
-            </button>
+              WhatsApp Us
+            </a>
+
           </div>
+
+
         </section>
-         
+
+
+
         <section id="sip-section">
           {/* SIP Calculator cards here */}
 
@@ -307,14 +358,40 @@ function App() {
         <section className="card">
           <h2 style={{ marginBottom: "16px" }}>Fund Researcher</h2>
 
-          <input
-            type="text"
-            placeholder="Search ICICI Prudential, HDFC, SBI..."
-            value={search}
-            disabled={!!selectedFund}
-            onChange={(e) => setSearch(e.target.value)}
-            className="fund-search"
-          />
+          <div className="fund-search-shell">
+            <input
+              type="text"
+              placeholder="Search ICICI Prudential, HDFC, SBI..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setSelectedFund(null);
+              }}
+              className="fund-search"
+            />
+
+            {search && (
+              <button
+                className="clear-search"
+                onClick={() => {
+                  setSearch("");
+                  setResults([]);
+                  setSelectedFund(null);
+                }}
+                aria-label="Clear search"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M18 6L6 18M6 6l12 12"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
+
 
 
           {loadingFunds && <p style={{ marginTop: "10px" }}>Loading funds...</p>}
@@ -326,22 +403,14 @@ function App() {
               onClick={async () => {
                 const details = await fetchFundDetails(fund.schemeCode);
                 setSelectedFund(details);
-                setSearch(fund.schemeName);   // lock input to selected fund
-                setResults([]);               // hide dropdown
+                setSearch(fund.schemeName); // show selected fund name
+                setResults([]);             // hide dropdown
               }}
+
             >
               {fund.schemeName}
             </div>
           ))}
-          <button
-            className="change-fund-btn"
-            onClick={() => {
-              setSelectedFund(null);
-              setSearch("");
-            }}
-          >
-            Change Fund
-          </button>
 
         </section>
 
@@ -367,18 +436,21 @@ function App() {
           </section>
         )}
 
-        <section id="contact-section" className="card contact-card">
-          <h2>Get in Touch</h2>
-          <p className="contact-sub">
-            Have a query or want investment guidance? We’ll get back to you.
+        <section className="card whatsapp-card">
+          <h2>Speak With Us</h2>
+          <p>
+            Have questions about SIPs or mutual funds?
+            Chat directly with us on WhatsApp.
           </p>
 
-          <div className="contact-form">
-            <input type="text" placeholder="Your Name" />
-            <input type="email" placeholder="Your Email" />
-            <textarea placeholder="Your Message" rows="4" />
-            <button className="primary-btn">Send Query</button>
-          </div>
+          <a
+            href="https://wa.me/918478999888"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whatsapp-big-btn"
+          >
+            Chat on WhatsApp
+          </a>
         </section>
 
 
@@ -386,6 +458,11 @@ function App() {
 
       <footer className="footer">
         © {new Date().getFullYear()} Matecap Wealth | contact@matecapwealth.com
+
+        <div className="footer-trust">
+          AMFI Registered Mutual Fund Distributor &nbsp;|&nbsp; ARN – 344831
+        </div>
+
       </footer>
     </div>
   );
