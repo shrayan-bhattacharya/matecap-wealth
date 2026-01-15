@@ -21,6 +21,12 @@ function calculateSIP(monthly, rate, years) {
   return monthly * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
 }
 
+function parseMFDate(dateStr) {
+  // MFAPI format: DD-MM-YYYY
+  const [dd, mm, yyyy] = dateStr.split("-");
+  return new Date(`${yyyy}-${mm}-${dd}`);
+}
+
 function NavChart({ data, dark }) {
   const canvasRef = React.useRef(null);
 
@@ -137,6 +143,28 @@ function generateSipData(monthly, rate, years) {
   return data;
 }
 
+function getClosestNav(histData, targetDate) {
+  const target = new Date(targetDate).getTime();
+
+  for (let i = histData.length - 1; i >= 0; i--) {
+    const d = parseMFDate(histData[i].date).getTime();
+
+    if (d <= target) {
+      return Number(histData[i].nav);
+    }
+  }
+
+  return null;
+}
+
+
+function simpleReturn(current, past) {
+  return ((current / past) - 1) * 100;
+}
+
+function annualisedReturn(current, past, years) {
+  return (Math.pow(current / past, 1 / years) - 1) * 100;
+}
 
 
 function App() {
@@ -184,6 +212,59 @@ function App() {
     setResults(filtered);
   }, [search, allFunds, selectedFund]);
 
+  const histData = React.useMemo(() => {
+    if (!selectedFund?.data) return [];
+    return [...selectedFund.data].reverse(); // oldest → newest
+  }, [selectedFund]);
+
+
+
+  const performance = React.useMemo(() => {
+    if (!histData || histData.length === 0) return null;
+
+    const latest = histData[histData.length - 1];
+
+    const currentNav = Number(latest.nav);
+    const today = parseMFDate(latest.date);
+
+
+    const periods = [
+      { label: "1 Week", days: 7, type: "simple" },
+      { label: "1 Month", days: 30, type: "simple" },
+      { label: "3 Months", days: 90, type: "simple" },
+      { label: "6 Months", days: 180, type: "simple" },
+      { label: "YTD", ytd: true, type: "simple" },
+      { label: "1 Year", years: 1, type: "annualised" },
+      { label: "2 Years", years: 2, type: "annualised" },
+      { label: "3 Years", years: 3, type: "annualised" }
+    ];
+
+    return periods.map(p => {
+      let pastNav = null;
+
+      if (p.ytd) {
+        const startOfYear = new Date(today.getFullYear(), 0, 1);
+        pastNav = getClosestNav(histData, startOfYear);
+      } else if (p.days) {
+        const pastDate = new Date(today);
+        pastDate.setDate(today.getDate() - p.days);
+        pastNav = getClosestNav(histData, pastDate);
+      } else if (p.years) {
+        const pastDate = new Date(today);
+        pastDate.setFullYear(today.getFullYear() - p.years);
+        pastNav = getClosestNav(histData, pastDate);
+      }
+
+      if (!pastNav) return { label: p.label, value: null };
+
+      const value =
+        p.type === "simple"
+          ? simpleReturn(currentNav, pastNav)
+          : annualisedReturn(currentNav, pastNav, p.years);
+
+      return { label: p.label, value };
+    });
+  }, [histData]);
 
 
   return (
@@ -431,10 +512,46 @@ function App() {
               <strong>{selectedFund.data[0].date}</strong>
             </div>
             <div className="nav-chart">
-              <NavChart data={selectedFund.data.slice(0, 180)} dark={dark} />
+              <NavChart data={histData.slice(-180)} dark={dark} />
+
             </div>
           </section>
         )}
+
+
+        {performance && (
+          <section className="card">
+            <h3 style={{ marginBottom: "16px" }}>Performance</h3>
+
+            <div className="performance-list">
+              {performance.map(p => (
+                <div key={p.label} className="performance-row">
+                  <span>{p.label}</span>
+                  <span
+                    className={
+                      p.value === null
+                        ? "neutral"
+                        : p.value >= 0
+                          ? "positive"
+                          : "negative"
+                    }
+                  >
+                    {p.value !== null && (p.value >= 0 ? "▲ " : "▼ ")}
+                    {p.value === null ? "--" : `${p.value.toFixed(2)}%`}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <p className="performance-note">
+              Past performance is not indicative of future returns.
+            </p>
+          </section>
+        )}
+
+
+
+
 
         <section className="card whatsapp-card">
           <h2>Speak With Us</h2>

@@ -517,6 +517,88 @@ button:hover {
 }
 
 
+/* fund performance */
+
+.performance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.performance-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  padding: 6px 0;
+}
+
+.performance-row span:last-child {
+  font-weight: 600;
+}
+
+.performance-row:nth-child(4),
+.performance-row:nth-child(6) {
+  font-weight: 600;
+}
+
+
+.performance-row:nth-child(4) span:first-child::after {
+  content: " • Popular";
+  font-size: 11px;
+  opacity: 0.5;
+}
+
+.positive {
+  color: #16a34a;
+}
+
+.negative {
+  color: #dc2626;
+}
+
+.neutral {
+  color: #94a3b8;
+}
+
+.performance-note {
+  margin-top: 16px;
+  font-size: 12px;
+  opacity: 0.55;
+  border-top: 1px dashed rgba(0,0,0,0.1);
+  padding-top: 10px;
+}
+
+.app.dark .performance-note {
+  border-color: rgba(255,255,255,0.15);
+}
+
+
+.performance-list {
+  animation: fadeUp 0.35s ease-out;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Dark mode */
+.app.dark .positive {
+  color: #4ade80;
+}
+
+.app.dark .negative {
+  color: #f87171;
+}
+
+
 
 /* Mobile tweaks */
 
@@ -581,4 +663,10 @@ button:hover {
   }
 }
 
+@media (max-width: 640px) {
+  .performance-row {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+}
 
