@@ -277,7 +277,7 @@ function App() {
 
         <div className="header-actions">
           <a
-            href="https://wa.me/918478999888"
+            href="https://wa.me/919051636956"
             target="_blank"
             rel="noopener noreferrer"
             className="whatsapp-icon-btn"
@@ -338,19 +338,21 @@ function App() {
           </div>
 
           <div className="hero-actions">
+
             <button
               className="primary-btn"
               onClick={() =>
                 document
-                  .getElementById("sip-section")
+                  .getElementById("fund-section")
                   .scrollIntoView({ behavior: "smooth" })
               }
             >
-              Start SIP Planning
+              Explore Mutual Funds
             </button>
 
+
             <a
-              href="https://wa.me/918478999888"
+              href="https://wa.me/919051636956"
               target="_blank"
               rel="noopener noreferrer"
               className="secondary-btn"
@@ -436,7 +438,7 @@ function App() {
 
         </section>
 
-        <section className="card">
+        <section id="fund-section" className="card">
           <h2 style={{ marginBottom: "16px" }}>Fund Researcher</h2>
 
           <div className="fund-search-shell">
@@ -561,7 +563,7 @@ function App() {
           </p>
 
           <a
-            href="https://wa.me/918478999888"
+            href="https://wa.me/919051636956"
             target="_blank"
             rel="noopener noreferrer"
             className="whatsapp-big-btn"
