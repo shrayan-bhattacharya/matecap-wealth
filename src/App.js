@@ -277,7 +277,7 @@ function App() {
 
         <div className="header-actions">
           <a
-            href="https://wa.me/919051636956"
+            href="https://wa.me/15558664214"
             target="_blank"
             rel="noopener noreferrer"
             className="whatsapp-icon-btn"
@@ -352,7 +352,7 @@ function App() {
 
 
             <a
-              href="https://wa.me/919051636956"
+              href="https://wa.me/15558664214"
               target="_blank"
               rel="noopener noreferrer"
               className="secondary-btn"
@@ -563,7 +563,7 @@ function App() {
           </p>
 
           <a
-            href="https://wa.me/919051636956"
+            href="https://wa.me/15558664214"
             target="_blank"
             rel="noopener noreferrer"
             className="whatsapp-big-btn"
